@@ -1,0 +1,2222 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voice First AI Wellness Coach</title>
+  
+  <!-- Standardized Professional Typography (Plus Jakarta Sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      
+      /* Light Theme (Canva Clean White & Pastel) */
+      --bg-canvas: #f8fafc;
+      --card-bg: #ffffff;
+      --card-border: #e2e8f0;
+      --card-hover-border: #cbd5e1;
+      --text-main: #0f172a;
+      --text-body: #334155;
+      --text-muted: #64748b;
+      --text-subtle: #94a3b8;
+      
+      --accent-mint: #10b981;
+      --accent-mint-light: #ecfdf5;
+      --accent-sky: #0ea5e9;
+      --accent-sky-light: #f0f9ff;
+      --accent-purple: #8b5cf6;
+      --accent-purple-light: #f5f3ff;
+      --accent-amber: #f59e0b;
+      --accent-amber-light: #fffbeb;
+      --accent-rose: #f43f5e;
+      --accent-rose-light: #fff1f2;
+      
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.04);
+      --shadow-md: 0 4px 16px -2px rgba(15, 23, 42, 0.06), 0 2px 4px -1px rgba(15, 23, 42, 0.02);
+      --shadow-lg: 0 14px 34px -4px rgba(15, 23, 42, 0.09), 0 4px 8px -2px rgba(15, 23, 42, 0.03);
+      --chat-bg: #f8fafc;
+      --chat-coach-bg: #ffffff;
+      --chat-user-bg: #0f172a;
+      --chat-user-text: #ffffff;
+      --audio-bar-bg: #ffffff;
+      --input-bg: #ffffff;
+      --input-border: #cbd5e1;
+    }
+
+    [data-theme="dark"] {
+      /* Dark Theme (Obsidian Velvet Quartz & Neon) */
+      --bg-canvas: #090d16;
+      --card-bg: rgba(18, 24, 41, 0.85);
+      --card-border: rgba(255, 255, 255, 0.09);
+      --card-hover-border: rgba(14, 165, 233, 0.35);
+      --text-main: #f8fafc;
+      --text-body: #cbd5e1;
+      --text-muted: #94a3b8;
+      --text-subtle: #64748b;
+      
+      --accent-mint: #10b981;
+      --accent-mint-light: rgba(16, 185, 129, 0.15);
+      --accent-sky: #38bdf8;
+      --accent-sky-light: rgba(56, 189, 248, 0.15);
+      --accent-purple: #c084fc;
+      --accent-purple-light: rgba(192, 132, 252, 0.15);
+      --accent-amber: #fbbf24;
+      --accent-amber-light: rgba(251, 191, 36, 0.15);
+      --accent-rose: #fb7185;
+      --accent-rose-light: rgba(251, 113, 133, 0.15);
+      
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 8px 24px -2px rgba(0, 0, 0, 0.45);
+      --shadow-lg: 0 16px 48px -6px rgba(0, 0, 0, 0.6);
+      --chat-bg: #0d121f;
+      --chat-coach-bg: #151d30;
+      --chat-user-bg: #064e3b;
+      --chat-user-text: #ecfdf5;
+      --audio-bar-bg: #131929;
+      --input-bg: #131929;
+      --input-border: rgba(255, 255, 255, 0.14);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--font-family); transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease; }
+
+    body {
+      background-color: var(--bg-canvas);
+      background-image: 
+        radial-gradient(circle at 10% 12%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 15%, rgba(139, 92, 246, 0.09) 0%, transparent 45%),
+        radial-gradient(circle at 50% 90%, rgba(14, 165, 233, 0.07) 0%, transparent 50%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 24px 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .app-shell {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* 3D Interactive Card Foundation - Relaxed & Silky Smooth with 3D Specular Sheen */
+    .tilt-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.06), 0 2px 4px -1px rgba(15, 23, 42, 0.02);
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.2s ease;
+      will-change: transform;
+      overflow: hidden;
+    }
+    .tilt-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(circle 280px at var(--sheen-x, 50%) var(--sheen-y, 50%), rgba(255, 255, 255, 0.25) 0%, transparent 80%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      mix-blend-mode: overlay;
+    }
+    [data-theme="dark"] .tilt-card::after {
+      background: radial-gradient(circle 280px at var(--sheen-x, 50%) var(--sheen-y, 50%), rgba(56, 189, 248, 0.18) 0%, transparent 80%);
+      mix-blend-mode: screen;
+    }
+    .tilt-card:hover::after {
+      opacity: 1;
+    }
+    .tilt-card:hover {
+      box-shadow: 0 16px 36px -4px rgba(15, 23, 42, 0.12), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
+      border-color: var(--card-hover-border);
+    }
+
+    /* Top Navigation Header */
+    header {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(16px);
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* Creative & Simple Logo Badge with 3D Depth */
+    .brand-logo-badge {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.14), rgba(14, 165, 233, 0.14));
+      border: 1.5px solid rgba(16, 185, 129, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.18), inset 0 1px 1px rgba(255, 255, 255, 0.7);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      flex-shrink: 0;
+      cursor: pointer;
+      transform-style: preserve-3d;
+      perspective: 300px;
+    }
+    .brand-logo-badge:hover {
+      transform: translateY(-3px) rotateX(8deg) rotateY(-8deg) scale(1.08);
+      box-shadow: 0 12px 28px rgba(16, 185, 129, 0.32), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+      border-color: var(--accent-mint);
+    }
+    .brand-logo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    .brand-title {
+      font-size: 21px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-badge {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      background: var(--accent-mint-light);
+      color: var(--accent-mint);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    .brand-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      font-weight: 500;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* Theme Toggle Switch */
+    .theme-switch {
+      background: var(--card-border);
+      border-radius: 9999px;
+      padding: 3px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      border: 1px solid var(--card-border);
+    }
+
+    .theme-opt {
+      padding: 5px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--text-muted);
+      transition: all 0.2s;
+    }
+
+    .theme-opt.active {
+      background: var(--card-bg);
+      color: var(--text-main);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-action-pill {
+      background: var(--card-bg);
+      border: 1.5px solid var(--card-border);
+      color: var(--text-body);
+      padding: 7px 14px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      box-shadow: var(--shadow-sm);
+    }
+    .btn-action-pill:hover {
+      border-color: var(--accent-sky);
+      color: var(--accent-sky);
+      transform: translateY(-1px);
+    }
+
+    /* Voice Selection & Portion Control Bar */
+    .controls-strip {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .control-block {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .control-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .voice-chips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .voice-chip {
+      background: var(--bg-canvas);
+      border: 1.5px solid var(--card-border);
+      color: var(--text-body);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 9999px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+    .voice-chip:hover {
+      border-color: var(--accent-sky);
+      color: var(--accent-sky);
+    }
+    .voice-chip.active {
+      background: var(--accent-sky-light);
+      border-color: var(--accent-sky);
+      color: var(--accent-sky);
+      font-weight: 700;
+    }
+
+    .btn-clone-voice {
+      background: linear-gradient(135deg, #8b5cf6, #ec4899);
+      color: white;
+      border: none;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      box-shadow: 0 2px 10px rgba(139, 92, 246, 0.3);
+      transition: all 0.2s;
+    }
+    .btn-clone-voice:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(139, 92, 246, 0.45);
+    }
+
+    .portion-selector, .pace-selector {
+      display: flex;
+      gap: 4px;
+      background: var(--bg-canvas);
+      padding: 3px;
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
+    }
+
+    .portion-btn, .pace-btn {
+      background: transparent;
+      border: none;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 10px;
+      border-radius: 8px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .portion-btn.active {
+      background: var(--card-bg);
+      color: var(--accent-mint);
+      box-shadow: var(--shadow-sm);
+    }
+    .pace-btn.active {
+      background: var(--card-bg);
+      color: var(--accent-sky);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Mobile Segmented Quick Jump Tabs */
+    .mobile-tab-bar {
+      display: none;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 4px;
+      gap: 6px;
+      box-shadow: var(--shadow-sm);
+    }
+    .mobile-tab-btn {
+      flex: 1;
+      padding: 9px 12px;
+      border: none;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .mobile-tab-btn.active {
+      background: var(--accent-mint-light);
+      color: var(--accent-mint);
+    }
+
+    /* Main Dashboard Grid */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 390px;
+      gap: 20px;
+    }
+
+    @media (max-width: 940px) {
+      .dashboard-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Proactive Check-in Strip */
+    .proactive-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .nudge-btn {
+      background: var(--card-bg);
+      border: 1.5px solid var(--card-border);
+      border-radius: 16px;
+      padding: 13px 15px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      position: relative;
+    }
+    .nudge-btn:hover {
+      transform: translateY(-3px) scale(1.015);
+      border-color: var(--accent-sky);
+      box-shadow: 0 10px 24px rgba(14, 165, 233, 0.18), 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
+    .nudge-btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 6px rgba(14, 165, 233, 0.12);
+    }
+
+    .nudge-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nudge-desc {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Chat Stream & Interaction Container - Stable & Easy to Work With */
+    .chat-container {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: var(--shadow-md);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: box-shadow 0.3s ease, border-color 0.2s ease;
+    }
+    .chat-container:hover {
+      box-shadow: var(--shadow-lg);
+      border-color: var(--card-hover-border);
+    }
+
+    .chat-stream {
+      height: 380px;
+      overflow-y: auto;
+      background: var(--chat-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      scroll-behavior: smooth;
+    }
+
+    .chat-bubble {
+      max-width: 82%;
+      padding: 14px 18px;
+      border-radius: 18px;
+      font-size: 14px;
+      line-height: 1.6;
+      position: relative;
+      animation: bubbleSlide 0.3s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    @keyframes bubbleSlide {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .chat-bubble.coach {
+      align-self: flex-start;
+      background: var(--chat-coach-bg);
+      border: 1px solid var(--card-border);
+      border-left: 4px solid var(--accent-mint);
+      color: var(--text-main);
+    }
+
+    .chat-bubble.user {
+      align-self: flex-end;
+      background: var(--chat-user-bg);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--chat-user-text);
+    }
+
+    .bubble-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .bubble-header.coach-header { color: var(--accent-mint); }
+    .bubble-header.user-header { color: var(--accent-sky); }
+
+    .btn-replay-voice {
+      background: var(--bg-canvas);
+      border: 1px solid var(--card-border);
+      color: var(--text-body);
+      border-radius: 6px;
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+    .btn-replay-voice:hover {
+      background: var(--card-border);
+    }
+
+    /* Clean Audio Dock */
+    .audio-bar {
+      background: var(--audio-bar-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .audio-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent-sky);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    audio {
+      flex: 1;
+      height: 32px;
+    }
+
+    /* Waveform Equalizer */
+    .waveform-visualizer {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      height: 28px;
+      margin: 4px 0;
+    }
+    .waveform-visualizer.active {
+      display: flex;
+    }
+    .wave-bar {
+      width: 4px;
+      height: 8px;
+      background: var(--accent-mint);
+      border-radius: 2px;
+      animation: waveEqualizer 0.85s ease-in-out infinite alternate;
+    }
+    .wave-bar:nth-child(2) { background: var(--accent-sky); animation-delay: 0.15s; }
+    .wave-bar:nth-child(3) { background: var(--accent-purple); animation-delay: 0.3s; }
+    .wave-bar:nth-child(4) { background: var(--accent-amber); animation-delay: 0.45s; }
+    .wave-bar:nth-child(5) { background: var(--accent-mint); animation-delay: 0.2s; }
+
+    @keyframes waveEqualizer {
+      0% { height: 6px; }
+      100% { height: 26px; }
+    }
+
+    /* Voice & Text Input Dock */
+    .input-dock {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .voice-cta-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-record {
+      flex: 1;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      border: none;
+      color: #ffffff;
+      padding: 15px 22px;
+      border-radius: 16px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 0 #047857, 0 8px 18px rgba(16, 185, 129, 0.28);
+      position: relative;
+    }
+    .btn-record:hover {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 #047857, 0 14px 26px rgba(16, 185, 129, 0.38);
+    }
+    .btn-record:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #047857, 0 4px 10px rgba(16, 185, 129, 0.2);
+    }
+
+    .btn-record.recording {
+      background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+      animation: pulseRecord 1.2s infinite;
+      box-shadow: 0 4px 0 #be123c, 0 0 24px rgba(244, 63, 94, 0.5);
+    }
+
+    @keyframes pulseRecord {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); }
+    }
+
+    .text-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .text-input {
+      flex: 1;
+      background: var(--input-bg);
+      border: 1.5px solid var(--input-border);
+      border-radius: 14px;
+      padding: 13px 18px;
+      color: var(--text-main);
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+    .text-input:focus {
+      border-color: var(--accent-sky);
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15), inset 0 1px 2px rgba(0, 0, 0, 0.02);
+    }
+
+    .btn-send {
+      background: #0f172a;
+      border: none;
+      color: white;
+      padding: 0 24px;
+      border-radius: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 3px 0 #020617, 0 6px 14px rgba(15, 23, 42, 0.2);
+    }
+    [data-theme="dark"] .btn-send {
+      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+      color: #0f172a;
+      box-shadow: 0 3px 0 #0284c7, 0 6px 18px rgba(56, 189, 248, 0.3);
+    }
+    .btn-send:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 0 #020617, 0 10px 20px rgba(15, 23, 42, 0.26);
+    }
+    [data-theme="dark"] .btn-send:hover {
+      box-shadow: 0 5px 0 #0284c7, 0 10px 24px rgba(56, 189, 248, 0.45);
+    }
+    .btn-send:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #020617, 0 2px 6px rgba(15, 23, 42, 0.18);
+    }
+
+    /* Quick Indian Nutrition Chips */
+    .chip-container {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .chip-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .chip-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .chip {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-body);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: var(--shadow-sm);
+    }
+    .chip:hover {
+      background: var(--accent-mint-light);
+      border-color: var(--accent-mint);
+      color: var(--accent-mint);
+      transform: translateY(-1px);
+    }
+
+    /* Right Sidebar: Nutrition & Multi-Nutrient HUD */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .calorie-hero {
+      background: var(--accent-mint-light);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      border-radius: 16px;
+      padding: 16px;
+      text-align: center;
+      margin-bottom: 16px;
+      box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8), 0 4px 14px rgba(16, 185, 129, 0.12);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+    .calorie-hero:hover {
+      transform: translateY(-2px) scale(1.015);
+      box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.95), 0 10px 24px rgba(16, 185, 129, 0.22);
+      border-color: var(--accent-mint);
+    }
+
+    .hero-number {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--accent-mint);
+      letter-spacing: -1px;
+    }
+
+    .hero-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      font-weight: 600;
+    }
+
+    /* Multi-Nutrient Stack */
+    .macro-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .macro-bar-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .macro-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+    }
+
+    .macro-name {
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .macro-val {
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .track {
+      width: 100%;
+      height: 7px;
+      background: var(--card-border);
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+
+    .fill {
+      height: 100%;
+      border-radius: 9999px;
+      transition: width 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .fill-prot { background: linear-gradient(90deg, #10b981, #059669); }
+    .fill-carbs { background: linear-gradient(90deg, #f59e0b, #d97706); }
+    .fill-fats { background: linear-gradient(90deg, #f43f5e, #e11d48); }
+    .fill-fiber { background: linear-gradient(90deg, #8b5cf6, #6366f1); }
+    .fill-water { background: linear-gradient(90deg, #0ea5e9, #0284c7); }
+
+    /* Hydration & Fiber Mini Cards */
+    .extra-nutrients-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px dashed var(--card-border);
+    }
+
+    .mini-card {
+      background: var(--bg-canvas);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+      transition: all 0.25s ease;
+    }
+    .mini-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+      border-color: var(--accent-sky);
+    }
+
+    .btn-quick-water {
+      background: var(--accent-sky);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      cursor: pointer;
+      box-shadow: 0 2px 0 #0284c7, 0 3px 6px rgba(14, 165, 233, 0.25);
+      transition: all 0.15s ease;
+    }
+    .btn-quick-water:active {
+      transform: translateY(2px);
+      box-shadow: 0 0 0 #0284c7;
+    }
+
+    /* Recovery Cards */
+    .recovery-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .stat-pill {
+      background: var(--bg-canvas);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 12px 10px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+      transition: all 0.25s ease;
+    }
+    .stat-pill:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+      border-color: var(--accent-purple);
+    }
+
+    .stat-num {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .stat-lbl {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      font-weight: 600;
+    }
+
+    /* Adaptive Banner */
+    .adaptive-banner {
+      background: var(--accent-amber-light);
+      border: 1px dashed rgba(245, 158, 11, 0.4);
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text-main);
+    }
+
+    .adaptive-tag {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--accent-amber);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Meals list */
+    .meal-scroll {
+      max-height: 160px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .meal-row {
+      background: var(--bg-canvas);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .meal-name { font-weight: 600; color: var(--text-main); }
+    .meal-kcal { color: var(--accent-mint); font-weight: 700; }
+
+    /* Modals */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.active { display: flex; }
+
+    .modal-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 22px;
+      padding: 24px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-title { font-size: 16px; font-weight: 800; color: var(--text-main); }
+    .btn-close-modal { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-muted); }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-label { font-size: 12px; font-weight: 700; color: var(--text-muted); }
+    .form-input {
+      background: var(--bg-canvas);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--text-main);
+      outline: none;
+    }
+
+    .btn-save-modal {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    /* =========================================================
+       COMPREHENSIVE MOBILE & PHONE RESPONSIVE STYLES
+       ========================================================= */
+    @media (max-width: 768px) {
+      body {
+        padding: 10px 8px 30px 8px;
+        background-attachment: scroll;
+      }
+
+      .app-shell {
+        gap: 12px;
+      }
+
+      header {
+        padding: 12px 14px;
+        border-radius: 16px;
+        gap: 10px;
+      }
+
+      .brand-group {
+        width: 100%;
+        gap: 12px;
+      }
+
+      .brand-logo-badge {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+      }
+
+      .brand-title {
+        font-size: 16px;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .brand-badge {
+        font-size: 9px;
+        padding: 2px 7px;
+      }
+
+      .brand-sub {
+        font-size: 11px;
+      }
+
+      .header-actions {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .theme-switch {
+        padding: 2px;
+      }
+
+      .theme-opt {
+        padding: 5px 10px;
+        font-size: 11px;
+      }
+
+      .btn-action-pill {
+        padding: 6px 10px;
+        font-size: 11px;
+        border-radius: 10px;
+      }
+
+      /* Mobile Segmented Quick Jump Tabs */
+      .mobile-tab-bar {
+        display: flex !important;
+      }
+
+      /* Controls Strip (Voices, Tone & Portions) on Mobile */
+      .controls-strip {
+        padding: 12px 14px;
+        border-radius: 16px;
+        gap: 12px;
+      }
+
+      .control-block {
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .voice-chips, .portion-selector, .pace-selector {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        flex-wrap: nowrap;
+        padding-bottom: 2px;
+      }
+      .voice-chips::-webkit-scrollbar, .portion-selector::-webkit-scrollbar, .pace-selector::-webkit-scrollbar {
+        display: none;
+      }
+
+      .voice-chip {
+        white-space: nowrap;
+        flex-shrink: 0;
+        padding: 7px 12px;
+        font-size: 12px;
+      }
+
+      .btn-clone-voice {
+        white-space: nowrap;
+        flex-shrink: 0;
+        padding: 7px 12px;
+      }
+
+      .portion-btn, .pace-btn {
+        flex: 1;
+        white-space: nowrap;
+        text-align: center;
+        padding: 7px 8px;
+        font-size: 11px;
+      }
+
+      .chat-container {
+        padding: 16px 14px;
+        border-radius: 16px;
+      }
+
+      .proactive-strip {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+
+      .nudge-btn {
+        padding: 11px 12px;
+        border-radius: 12px;
+      }
+
+      .chat-stream {
+        height: 290px;
+        padding: 14px;
+        border-radius: 14px;
+      }
+
+      .chat-bubble {
+        max-width: 92%;
+        padding: 12px 14px;
+        font-size: 13.5px;
+      }
+
+      .audio-bar {
+        padding: 8px 12px;
+        gap: 10px;
+      }
+
+      .btn-record {
+        padding: 15px 16px;
+        font-size: 14.5px;
+        border-radius: 14px;
+      }
+
+      .text-row {
+        gap: 8px;
+      }
+
+      .text-input {
+        font-size: 16px !important; /* CRITICAL: Prevents iOS Safari & Android Chrome auto-zoom */
+        padding: 12px 14px;
+        border-radius: 12px;
+      }
+
+      .btn-send {
+        padding: 0 18px;
+        border-radius: 12px;
+      }
+
+      .chip-cloud {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        flex-wrap: nowrap;
+        padding-bottom: 3px;
+      }
+      .chip-cloud::-webkit-scrollbar {
+        display: none;
+      }
+
+      .chip {
+        white-space: nowrap;
+        flex-shrink: 0;
+        padding: 6px 12px;
+      }
+
+      .sidebar {
+        gap: 14px;
+      }
+
+      .sidebar .tilt-card {
+        padding: 18px 16px;
+        border-radius: 16px;
+      }
+
+      .hero-number {
+        font-size: 32px;
+      }
+
+      .extra-nutrients-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .recovery-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .modal-card {
+        padding: 20px 16px;
+        border-radius: 18px;
+        max-height: 85vh;
+        overflow-y: auto;
+      }
+
+      .form-input {
+        font-size: 16px !important; /* Prevents auto-zoom */
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Top Header -->
+    <header>
+      <div class="brand-group">
+        <div class="brand-logo-badge" title="Voice First AI Wellness Coach">
+          <img src="/logo_simple.png" alt="Voice First Logo" class="brand-logo-img" onerror="this.onerror=null; this.src='/coach_avatar.png';">
+        </div>
+        <div class="brand-title-wrap">
+          <div class="brand-title">
+            Voice First AI Wellness Coach
+            <span class="brand-badge">Voice-First</span>
+          </div>
+          <div class="brand-sub">
+            Adaptive Indian Nutrition • Workouts • Sleep & Recovery Engine
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Light / Dark Theme Switcher -->
+        <div class="theme-switch" onclick="toggleTheme()" title="Switch Light / Dark Theme">
+          <div class="theme-opt active" id="optLight">☀️ Light</div>
+          <div class="theme-opt" id="optDark">🌙 Dark</div>
+        </div>
+
+        <button class="btn-action-pill" onclick="openGoalsModal()">
+          <span>⚙️ Custom Goals & Portions</span>
+        </button>
+
+        <button class="btn-action-pill" onclick="confirmReset()" title="Reset today's logs">
+          <span>↺ Reset Today</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Mobile Tab Quick Switcher (Visible on Phones) -->
+    <div class="mobile-tab-bar">
+      <button class="mobile-tab-btn active" id="tabChat" onclick="scrollToMobileSection('chat')">💬 Coach Conversation</button>
+      <button class="mobile-tab-btn" id="tabStats" onclick="scrollToMobileSection('stats')">📊 Daily Macros & HUD</button>
+    </div>
+
+    <!-- Voice Selection, Cadence & Portions Strip -->
+    <section class="controls-strip">
+      <div class="control-block">
+        <div style="display:flex; justify-content:space-between; width:100%; align-items:center;">
+          <span class="control-label">🎙️ Calming AI Voices:</span>
+          <span style="font-size:11px; color:var(--accent-mint); font-weight:700;">✨ Soothing & Non-Irritating</span>
+        </div>
+        <div class="voice-chips" id="voiceChipsList">
+          <div class="voice-chip active" onclick="selectVoice('simran')">🌸 Simran (Calm Companion)</div>
+          <div class="voice-chip" onclick="selectVoice('kavya')">🌺 Kavya (Gentle & Warm)</div>
+          <div class="voice-chip" onclick="selectVoice('dev')">🌿 Dev (Deep & Relaxing)</div>
+          <div class="voice-chip" onclick="selectVoice('shubh')">☀️ Shubh (Friendly)</div>
+          <div class="voice-chip" onclick="selectVoice('priya')">🕊️ Priya (Empathetic)</div>
+          <div class="voice-chip" onclick="selectVoice('aditya')">⚡ Aditya (Active)</div>
+        </div>
+        <button class="btn-clone-voice" onclick="openCloneModal()">
+          <span>🧬 + Clone Voice</span>
+        </button>
+      </div>
+
+      <div class="control-block">
+        <span class="control-label">🎧 Voice Cadence:</span>
+        <div class="pace-selector">
+          <button class="pace-btn" id="paceSoothing" onclick="setPace(0.90)" title="Very slow, relaxed and soothing">🧘 Soothing (0.9x)</button>
+          <button class="pace-btn active" id="paceNatural" onclick="setPace(0.95)" title="Natural conversational breathing pace">🌿 Natural (0.95x)</button>
+          <button class="pace-btn" id="paceBrisk" onclick="setPace(1.05)" title="Quick morning update">⚡ Brisk (1.05x)</button>
+        </div>
+      </div>
+
+      <div class="control-block">
+        <span class="control-label">🥗 Portion Size:</span>
+        <div class="portion-selector">
+          <button class="portion-btn" id="portionPetite" onclick="setPortion(0.8)">Light (0.8x)</button>
+          <button class="portion-btn active" id="portionStd" onclick="setPortion(1.0)">Standard (1.0x)</button>
+          <button class="portion-btn" id="portionMuscle" onclick="setPortion(1.3)">Athlete (1.3x)</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Dashboard Grid -->
+    <div class="dashboard-grid">
+      <!-- Left Column: Voice Interaction & Conversation -->
+      <section class="chat-container" id="chatSection">
+        <!-- Proactive Check-in Quick Selectors -->
+        <div class="proactive-strip">
+          <button class="nudge-btn" onclick="triggerCheckin('morning_checkin')">
+            <div class="nudge-title">🌅 Morning Check-In</div>
+            <div class="nudge-desc">Sleep quality & daily focus</div>
+          </button>
+          <button class="nudge-btn" onclick="triggerCheckin('midday_nudge')">
+            <div class="nudge-title">☀️ Midday Nudge</div>
+            <div class="nudge-desc">Lunch macros & workout sync</div>
+          </button>
+          <button class="nudge-btn" onclick="triggerCheckin('evening_wrapup')">
+            <div class="nudge-title">🌙 Evening Wrap-Up</div>
+            <div class="nudge-desc">Dinner totals & sleep hygiene</div>
+          </button>
+        </div>
+
+        <!-- Chat Stream -->
+        <div class="chat-stream" id="chatStream">
+          <div class="chat-bubble coach">
+            <div class="bubble-header coach-header">
+              <span>Voice First Wellness Coach</span>
+              <button class="btn-replay-voice" onclick="replayLastAudio()">🔊 Replay</button>
+            </div>
+            Namaste! Main aapka Voice Wellness Coach hoon. Aaiye relax hokar baat karte hain—aaj apne meals, workout ya neend ke baare mein bataiye!
+          </div>
+        </div>
+
+        <!-- Audio Output Dock -->
+        <div class="audio-bar">
+          <div class="audio-label">
+            <span>🔊 Spoken Voice</span>
+          </div>
+          <audio id="audioPlayer" controls></audio>
+        </div>
+
+        <!-- Dynamic Frequency Visualizer -->
+        <div class="waveform-visualizer" id="visualizer">
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+        </div>
+
+        <!-- Input Dock -->
+        <div class="input-dock">
+          <div class="voice-cta-row">
+            <button class="btn-record" id="recordBtn" onclick="handleVoiceToggle()">
+              <span id="recordIcon">🎙️</span>
+              <span id="recordText">Click to Speak (Hinglish / English Mic)</span>
+            </button>
+          </div>
+
+          <div class="text-row">
+            <input 
+              type="text" 
+              id="textInput" 
+              class="text-input" 
+              placeholder="Or type here (e.g. 'Lunch mein 2 roti, dal tadka aur paneer bhurji khaya')..."
+              onkeydown="if(event.key==='Enter') sendTextMessage()"
+            />
+            <button class="btn-send" onclick="sendTextMessage()">Send</button>
+          </div>
+
+          <!-- Quick Indian Meal Presets -->
+          <div class="chip-container">
+            <div class="chip-label">Quick check-in suggestions:</div>
+            <div class="chip-cloud">
+              <span class="chip" onclick="usePreset('Subah 2 methi thepla dahi ke saath khaye, aur 2 glass paani piya')">🥟 Thepla & Hydration</span>
+              <span class="chip" onclick="usePreset('Had 3 idlis with sambar, coconut chutney and filter coffee')">☕ Idli Sambar</span>
+              <span class="chip" onclick="usePreset('Lunch mein 2 rotis, ek katori dal tadka aur paneer bhurji khaya')">🍛 Roti, Dal, Paneer</span>
+              <span class="chip" onclick="usePreset('Completed 40 minutes strength training today')">💪 40m Strength</span>
+              <span class="chip" onclick="usePreset('Slept 5 hours only, work stress, skipped morning cardio')">😴 5h Sleep & Fatigue</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Nutrition HUD -->
+      <aside class="sidebar" id="statsSection">
+        <!-- Daily Macro Balance Card with 3D Tilt -->
+        <div class="tilt-card" data-tilt="true">
+          <div class="section-title">
+            <span>Daily Nutrition Target</span>
+            <span style="font-size:11px; color:var(--accent-mint); font-weight:700;" id="portionDisplayBadge">1.0x Portion</span>
+          </div>
+
+          <div class="calorie-hero">
+            <div class="hero-number" id="calCount">0</div>
+            <div class="hero-sub">Consumed of <strong id="calGoal" style="color:var(--accent-mint);">2,100 kcal</strong> target</div>
+          </div>
+
+          <div class="macro-stack">
+            <!-- Protein -->
+            <div class="macro-bar-item">
+              <div class="macro-info">
+                <span class="macro-name">🥩 Protein</span>
+                <span class="macro-val"><span id="protCount">0</span> / <span id="protGoal">120</span>g</span>
+              </div>
+              <div class="track"><div class="fill fill-prot" id="protBar" style="width: 0%"></div></div>
+            </div>
+
+            <!-- Carbs -->
+            <div class="macro-bar-item">
+              <div class="macro-info">
+                <span class="macro-name">🍚 Carbs</span>
+                <span class="macro-val"><span id="carbsCount">0</span> / <span id="carbsGoal">220</span>g</span>
+              </div>
+              <div class="track"><div class="fill fill-carbs" id="carbsBar" style="width: 0%"></div></div>
+            </div>
+
+            <!-- Fats -->
+            <div class="macro-bar-item">
+              <div class="macro-info">
+                <span class="macro-name">🥑 Healthy Fats</span>
+                <span class="macro-val"><span id="fatCount">0</span> / <span id="fatGoal">60</span>g</span>
+              </div>
+              <div class="track"><div class="fill fill-fats" id="fatBar" style="width: 0%"></div></div>
+            </div>
+
+            <!-- Dietary Fiber (New Nutrient) -->
+            <div class="macro-bar-item">
+              <div class="macro-info">
+                <span class="macro-name">🌾 Dietary Fiber</span>
+                <span class="macro-val"><span id="fiberCount">0</span> / <span id="fiberGoal">32</span>g</span>
+              </div>
+              <div class="track"><div class="fill fill-fiber" id="fiberBar" style="width: 0%"></div></div>
+            </div>
+          </div>
+
+          <!-- Hydration Tracker (New Nutrient) -->
+          <div class="extra-nutrients-row">
+            <div class="mini-card">
+              <div class="mini-card-head">
+                <span>💧 Hydration</span>
+                <button class="btn-quick-water" onclick="addQuickWater(0.25)">+250ml</button>
+              </div>
+              <div style="font-size:15px; font-weight:800; color:var(--accent-sky); margin-top:2px;">
+                <span id="waterCount">0.0</span> / <span id="waterGoal">3.0</span>L
+              </div>
+              <div class="track" style="height:5px; margin-top:3px;"><div class="fill fill-water" id="waterBar" style="width: 0%"></div></div>
+            </div>
+
+            <div class="mini-card">
+              <div class="mini-card-head">
+                <span>⚡ Streak</span>
+                <span style="font-size:10px; color:var(--accent-mint);">Active</span>
+              </div>
+              <div style="font-size:15px; font-weight:800; color:var(--accent-amber); margin-top:2px;">
+                <span id="statStreak">6 Days 🔥</span>
+              </div>
+              <div style="font-size:10px; color:var(--text-muted);">Consistency Bonus</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Activity & Recovery Card with 3D Tilt -->
+        <div class="tilt-card" data-tilt="true">
+          <div class="section-title">
+            <span>Recovery & Vitals</span>
+            <span style="font-size:11px; color:var(--accent-purple); font-weight:700;">Optimal</span>
+          </div>
+
+          <div class="recovery-grid">
+            <div class="stat-pill">
+              <div class="stat-num" id="statSleep">7.0h</div>
+              <div class="stat-lbl">😴 Sleep Log</div>
+            </div>
+            <div class="stat-pill">
+              <div class="stat-num" id="statEnergy">HIGH</div>
+              <div class="stat-lbl">⚡ Energy Level</div>
+            </div>
+          </div>
+
+          <div style="font-size: 13px; line-height: 1.6; margin-bottom: 12px; color: var(--text-body);">
+            <div><strong>Workout:</strong> <span id="statWorkout">Strength & Core (Planned)</span></div>
+          </div>
+
+          <!-- Adaptive Note -->
+          <div class="adaptive-banner" id="adaptiveBanner" style="display:none;">
+            <div class="adaptive-tag">⚡ Coach Note:</div>
+            <div id="adaptiveNote" style="font-weight:600;">No modifications required today.</div>
+          </div>
+        </div>
+
+        <!-- Logged Indian Meals -->
+        <div class="tilt-card" data-tilt="true">
+          <div class="section-title">
+            <span>Logged Indian Meals</span>
+            <span style="font-size:11px; color:var(--accent-amber); font-weight:700;">Today</span>
+          </div>
+          <div class="meal-scroll" id="mealList">
+            <div style="font-size:12px; color:var(--text-muted); text-align:center; padding:10px;">
+              No meals logged today yet.
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Custom Goals & Portions Modal -->
+  <div class="modal-overlay" id="goalsModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div class="modal-title">⚙️ Personalize Goals & Portions</div>
+        <button class="btn-close-modal" onclick="closeGoalsModal()">✕</button>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Daily Calories Target (kcal):</label>
+        <input type="number" id="inputTargetCals" class="form-input" value="2100">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Daily Protein Target (g):</label>
+        <input type="number" id="inputTargetProt" class="form-input" value="120">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Daily Carbs Target (g):</label>
+        <input type="number" id="inputTargetCarbs" class="form-input" value="220">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Daily Fats Target (g):</label>
+        <input type="number" id="inputTargetFat" class="form-input" value="60">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Daily Dietary Fiber Target (g):</label>
+        <input type="number" id="inputTargetFiber" class="form-input" value="32">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Daily Hydration Target (Liters):</label>
+        <input type="number" step="0.5" id="inputTargetWater" class="form-input" value="3.0">
+      </div>
+      <button class="btn-save-modal" onclick="saveCustomGoals()">Save Goals</button>
+    </div>
+  </div>
+
+  <!-- Voice Cloning Modal -->
+  <div class="modal-overlay" id="cloneModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div class="modal-title">🧬 Clone a Voice for Your Coach</div>
+        <button class="btn-close-modal" onclick="closeCloneModal()">✕</button>
+      </div>
+      <div style="font-size:12px; color:var(--text-muted); line-height:1.5;">
+        Record or upload 5 to 10 seconds of any person speaking (yourself, your personal trainer, or a loved one) to synthesize their voice!
+      </div>
+      <div class="form-group">
+        <label class="form-label">Voice Name:</label>
+        <input type="text" id="cloneVoiceName" class="form-input" placeholder="e.g. My Trainer, Pooja, Dr. Sharma">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Voice Gender:</label>
+        <select id="cloneVoiceGender" class="form-input">
+          <option value="female">Female</option>
+          <option value="male">Male</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Record 5-10s Sample:</label>
+        <button class="btn-record" id="cloneRecordBtn" onclick="toggleCloneRecord()" style="padding:10px; font-size:13px;">
+          <span id="cloneRecordIcon">🎙️</span> <span id="cloneRecordText">Start 5s Sample Recording</span>
+        </button>
+      </div>
+      <button class="btn-save-modal" id="btnSubmitClone" onclick="submitVoiceClone()" style="display:none;">Save & Activate Cloned Voice</button>
+    </div>
+  </div>
+
+  <script>
+    let currentTheme = localStorage.getItem("wellness_theme") || "light";
+    let activeSpeaker = "simran";
+    let activeVoicePace = parseFloat(localStorage.getItem("wellness_voice_pace") || "0.95");
+    let activeVoiceId = null;
+    let activePortionMult = 1.0;
+    let clonedAudioB64 = null;
+    let isCloneRecording = false;
+    let cloneRecorder = null;
+    let cloneChunks = [];
+
+    let isRecording = false;
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let recordStartTime = 0;
+    let recordTimerInterval = null;
+    let lastAudioB64 = null;
+
+    // Mobile Section Quick Jump Tabs
+    function scrollToMobileSection(sec) {
+      const tabChat = document.getElementById('tabChat');
+      const tabStats = document.getElementById('tabStats');
+      if (sec === 'chat') {
+        const chatSec = document.getElementById('chatSection');
+        if (chatSec) chatSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (tabChat) tabChat.classList.add('active');
+        if (tabStats) tabStats.classList.remove('active');
+      } else {
+        const statSec = document.getElementById('statsSection');
+        if (statSec) statSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (tabStats) tabStats.classList.add('active');
+        if (tabChat) tabChat.classList.remove('active');
+      }
+    }
+
+    // Voice Cadence & Pace Tuning (Soothing / Natural / Brisk)
+    function setPace(pace) {
+      activeVoicePace = pace;
+      localStorage.setItem("wellness_voice_pace", pace);
+      const btnSoothing = document.getElementById('paceSoothing');
+      const btnNatural = document.getElementById('paceNatural');
+      const btnBrisk = document.getElementById('paceBrisk');
+      if (btnSoothing) btnSoothing.className = Math.abs(pace - 0.90) < 0.02 ? "pace-btn active" : "pace-btn";
+      if (btnNatural) btnNatural.className = Math.abs(pace - 0.95) < 0.02 ? "pace-btn active" : "pace-btn";
+      if (btnBrisk) btnBrisk.className = Math.abs(pace - 1.05) < 0.02 ? "pace-btn active" : "pace-btn";
+    }
+
+    // Theme Management
+    function applyTheme(theme) {
+      currentTheme = theme;
+      document.documentElement.setAttribute("data-theme", theme);
+      localStorage.setItem("wellness_theme", theme);
+      document.getElementById("optLight").className = theme === "light" ? "theme-opt active" : "theme-opt";
+      document.getElementById("optDark").className = theme === "dark" ? "theme-opt active" : "theme-opt";
+    }
+
+    function toggleTheme() {
+      applyTheme(currentTheme === "light" ? "dark" : "light");
+    }
+
+    // 3D Card Tilt & Holographic Specular Lighting
+    function init3DTilt() {
+      const cards = document.querySelectorAll('[data-tilt="true"]');
+      cards.forEach(card => {
+        let isHovered = false;
+        let rAF = null;
+
+        card.addEventListener('mouseenter', () => { isHovered = true; });
+        card.addEventListener('mouseleave', () => {
+          isHovered = false;
+          if (rAF) cancelAnimationFrame(rAF);
+          card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+        });
+
+        card.addEventListener('mousemove', (e) => {
+          if (!isHovered) return;
+
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+
+          // Track cursor position for 3D dynamic glass sheen reflection
+          card.style.setProperty('--sheen-x', `${x}px`);
+          card.style.setProperty('--sheen-y', `${y}px`);
+
+          // If hovering over interactive buttons inside the card, keep flat for easy clicking
+          if (e.target.closest('button, input, textarea, select, a, .btn-quick-water')) {
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+            return;
+          }
+
+          if (rAF) cancelAnimationFrame(rAF);
+          rAF = requestAnimationFrame(() => {
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            // Little 3D effect: ~2.0 degrees with scale3d(1.008) for pleasant floating depth
+            const maxTilt = 2.0;
+            const rotateX = ((y - centerY) / centerY) * -maxTilt;
+            const rotateY = ((x - centerX) / centerX) * maxTilt;
+            card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.008, 1.008, 1.008)`;
+          });
+        });
+      });
+
+      // Subtle 3D Gyroscope Parallax for Mobile Phones
+      if (window.DeviceOrientationEvent && ('ontouchstart' in window || navigator.maxTouchPoints > 0)) {
+        window.addEventListener('deviceorientation', (e) => {
+          if (e.gamma !== null && e.beta !== null) {
+            const tiltX = Math.min(12, Math.max(-12, e.gamma / 2.5));
+            const tiltY = Math.min(12, Math.max(-12, (e.beta - 45) / 2.5));
+            document.body.style.backgroundPosition = `${tiltX}px ${tiltY}px`;
+          }
+        }, { passive: true });
+      }
+    }
+
+    // Voice Selection
+    function selectVoice(speaker, voiceId = null) {
+      activeSpeaker = speaker;
+      activeVoiceId = voiceId;
+      document.querySelectorAll('.voice-chip').forEach(c => c.classList.remove('active'));
+      const activeEl = Array.from(document.querySelectorAll('.voice-chip')).find(el => el.innerText.toLowerCase().includes(speaker.toLowerCase()));
+      if (activeEl) activeEl.classList.add('active');
+      fetch('/api/profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ profile: { selected_voice: voiceId || speaker } })
+      });
+    }
+
+    // Portion Selection
+    function setPortion(multiplier) {
+      activePortionMult = multiplier;
+      document.getElementById('portionPetite').className = multiplier === 0.8 ? "portion-btn active" : "portion-btn";
+      document.getElementById('portionStd').className = multiplier === 1.0 ? "portion-btn active" : "portion-btn";
+      document.getElementById('portionMuscle').className = multiplier === 1.3 ? "portion-btn active" : "portion-btn";
+      document.getElementById('portionDisplayBadge').innerText = multiplier + "x Portion";
+
+      fetch('/api/profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ profile: { portion_size_multiplier: multiplier } })
+      });
+    }
+
+    // Goals Modal
+    function openGoalsModal() { document.getElementById('goalsModal').classList.add('active'); }
+    function closeGoalsModal() { document.getElementById('goalsModal').classList.remove('active'); }
+
+    async function saveCustomGoals() {
+      const cals = parseInt(document.getElementById('inputTargetCals').value) || 2100;
+      const prot = parseInt(document.getElementById('inputTargetProt').value) || 120;
+      const carbs = parseInt(document.getElementById('inputTargetCarbs').value) || 220;
+      const fat = parseInt(document.getElementById('inputTargetFat').value) || 60;
+      const fiber = parseInt(document.getElementById('inputTargetFiber').value) || 32;
+      const water = parseFloat(document.getElementById('inputTargetWater').value) || 3.0;
+
+      const profileUpdate = {
+        calorie_target: cals,
+        protein_target_g: prot,
+        carbs_target_g: carbs,
+        fat_target_g: fat,
+        fiber_target_g: fiber,
+        water_target_l: water
+      };
+
+      try {
+        await fetch('/api/profile', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ profile: profileUpdate })
+        });
+        closeGoalsModal();
+        loadState();
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    // Voice Cloning Modal
+    function openCloneModal() { document.getElementById('cloneModal').classList.add('active'); }
+    function closeCloneModal() { document.getElementById('cloneModal').classList.remove('active'); }
+
+    async function toggleCloneRecord() {
+      const btn = document.getElementById('cloneRecordBtn');
+      const label = document.getElementById('cloneRecordText');
+
+      if (!isCloneRecording) {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          cloneRecorder = new MediaRecorder(stream);
+          cloneChunks = [];
+
+          cloneRecorder.ondataavailable = e => { if (e.data.size > 0) cloneChunks.push(e.data); };
+          cloneRecorder.onstop = () => {
+            const blob = new Blob(cloneChunks, { type: 'audio/wav' });
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              clonedAudioB64 = reader.result.split(',')[1];
+              document.getElementById('btnSubmitClone').style.display = 'block';
+              label.innerText = 'Sample Captured! Ready to save';
+            };
+            reader.readAsDataURL(blob);
+            stream.getTracks().forEach(t => t.stop());
+          };
+
+          cloneRecorder.start();
+          isCloneRecording = true;
+          label.innerText = 'Recording Sample (Speak for 5-8s)...';
+          btn.style.background = '#e11d48';
+
+          setTimeout(() => {
+            if (isCloneRecording) toggleCloneRecord();
+          }, 6000);
+        } catch (e) {
+          alert("Microphone error: " + e.message);
+        }
+      } else {
+        if (cloneRecorder && cloneRecorder.state !== 'inactive') {
+          cloneRecorder.stop();
+        }
+        isCloneRecording = false;
+        btn.style.background = '';
+      }
+    }
+
+    async function submitVoiceClone() {
+      const name = document.getElementById('cloneVoiceName').value.trim() || 'Custom Coach';
+      const gender = document.getElementById('cloneVoiceGender').value;
+
+      try {
+        const res = await fetch('/api/clone-voice', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: name,
+            gender: gender,
+            sample_audio_base64: clonedAudioB64
+          })
+        });
+        const data = await res.json();
+        if (data.voice) {
+          closeCloneModal();
+          alert(`Voice '${name}' cloned and activated successfully!`);
+          loadState();
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    // Quick Hydration Addition
+    async function addQuickWater(liters) {
+      await sendTurn({ text: `Drank a glass of water (${Math.round(liters*1000)} ml)` });
+    }
+
+    // Dashboard State Loader
+    async function loadState() {
+      try {
+        const res = await fetch('/api/state');
+        if (!res.ok) throw new Error("Status " + res.status);
+        const data = await res.json();
+        renderDashboard(data.today, data.profile);
+      } catch (err) {
+        console.warn("State load err:", err);
+      }
+    }
+
+    function setStatus(isWorking, message, isError = false) {
+      const viz = document.getElementById('visualizer');
+      if (isWorking) {
+        viz.classList.add('active');
+      } else {
+        viz.classList.remove('active');
+      }
+    }
+
+    function addMessage(role, text, audioB64 = null) {
+      const stream = document.getElementById('chatStream');
+      const bubble = document.createElement('div');
+      bubble.className = "chat-bubble " + role;
+
+      if (role === 'coach') {
+        bubble.innerHTML = `
+          <div class="bubble-header coach-header">
+            <span>Voice First Wellness Coach</span>
+            ${audioB64 ? `<button class="btn-replay-voice" onclick="playAudio('${audioB64}')">🔊 Replay</button>` : ''}
+          </div>
+          <div>${text}</div>
+        `;
+      } else {
+        bubble.innerHTML = `
+          <div class="bubble-header user-header">
+            <span>You</span>
+          </div>
+          <div>${text}</div>
+        `;
+      }
+
+      stream.appendChild(bubble);
+      stream.scrollTop = stream.scrollHeight;
+    }
+
+    function playAudio(b64) {
+      if (!b64) return;
+      lastAudioB64 = b64;
+      const player = document.getElementById('audioPlayer');
+      player.src = "data:audio/wav;base64," + b64;
+      player.play().catch(e => {
+        console.log("Autoplay note: interaction needed:", e);
+      });
+    }
+
+    function replayLastAudio() {
+      if (lastAudioB64) {
+        playAudio(lastAudioB64);
+      }
+    }
+
+    function renderDashboard(today, profile) {
+      if (!today) return;
+      const t = today.totals || { calories: 0, protein_g: 0, carbs_g: 0, fat_g: 0, fiber_g: 0, water_liters: 0.0 };
+      const p = profile || { calorie_target: 2100, protein_target_g: 120, carbs_target_g: 220, fat_target_g: 60, fiber_target_g: 32, water_target_l: 3.0, workout_streak_days: 6 };
+
+      // Calories
+      document.getElementById('calCount').innerText = t.calories.toLocaleString();
+      document.getElementById('calGoal').innerText = p.calorie_target.toLocaleString() + ' kcal';
+      
+      // Macros
+      document.getElementById('protCount').innerText = t.protein_g;
+      document.getElementById('protGoal').innerText = p.protein_target_g;
+      document.getElementById('carbsCount').innerText = t.carbs_g;
+      document.getElementById('carbsGoal').innerText = p.carbs_target_g;
+      document.getElementById('fatCount').innerText = t.fat_g;
+      document.getElementById('fatGoal').innerText = p.fat_target_g;
+
+      // New Nutrients: Fiber & Hydration
+      document.getElementById('fiberCount').innerText = t.fiber_g || 0;
+      document.getElementById('fiberGoal').innerText = p.fiber_target_g || 32;
+      document.getElementById('waterCount').innerText = (t.water_liters || 0.0).toFixed(1);
+      document.getElementById('waterGoal').innerText = (p.water_target_l || 3.0).toFixed(1);
+
+      const protPct = Math.min(100, Math.round((t.protein_g / (p.protein_target_g || 120)) * 100));
+      const carbsPct = Math.min(100, Math.round((t.carbs_g / (p.carbs_target_g || 220)) * 100));
+      const fatPct = Math.min(100, Math.round((t.fat_g / (p.fat_target_g || 60)) * 100));
+      const fiberPct = Math.min(100, Math.round(((t.fiber_g || 0) / (p.fiber_target_g || 32)) * 100));
+      const waterPct = Math.min(100, Math.round(((t.water_liters || 0) / (p.water_target_l || 3.0)) * 100));
+
+      document.getElementById('protBar').style.width = protPct + '%';
+      document.getElementById('carbsBar').style.width = carbsPct + '%';
+      document.getElementById('fatBar').style.width = fatPct + '%';
+      document.getElementById('fiberBar').style.width = fiberPct + '%';
+      document.getElementById('waterBar').style.width = waterPct + '%';
+
+      document.getElementById('statStreak').innerText = (p.workout_streak_days || 6) + ' Days 🔥';
+      const sleepHours = today.sleep ? today.sleep.hours : 0;
+      const sleepQual = today.sleep && today.sleep.quality_1_to_5 ? ` (Q:${today.sleep.quality_1_to_5}/5)` : '';
+      document.getElementById('statSleep').innerText = sleepHours > 0 ? `${sleepHours}h${sleepQual}` : '7.0h (Q:4/5)';
+
+      if (today.workout) {
+        document.getElementById('statWorkout').innerText = `${today.workout.activity || 'Strength & Core'} [${(today.workout.status || 'planned').toUpperCase()}]`;
+      }
+      if (today.energy_level && today.energy_level !== 'unknown') {
+        document.getElementById('statEnergy').innerText = today.energy_level.toUpperCase();
+      }
+
+      const banner = document.getElementById('adaptiveBanner');
+      const note = document.getElementById('adaptiveNote');
+      if (today.adaptive_actions && today.adaptive_actions.length > 0) {
+        banner.style.display = 'block';
+        note.innerText = today.adaptive_actions[today.adaptive_actions.length - 1];
+      } else {
+        banner.style.display = 'none';
+      }
+
+      // Cloned voices chips rendering
+      const clonedList = p.cloned_voices || [];
+      const chipsContainer = document.getElementById('voiceChipsList');
+      if (clonedList.length > 0) {
+        clonedList.forEach(cv => {
+          const id = `voice_${cv.voice_id}`;
+          if (!document.getElementById(id)) {
+            const chip = document.createElement('div');
+            chip.id = id;
+            chip.className = 'voice-chip';
+            chip.innerHTML = `🧬 ${cv.name}`;
+            chip.onclick = () => selectVoice(cv.name, cv.voice_id);
+            chipsContainer.appendChild(chip);
+          }
+        });
+      }
+
+      // Meals
+      const mealList = document.getElementById('mealList');
+      if (today.meals && today.meals.length > 0) {
+        mealList.innerHTML = today.meals.map(m => `
+          <div class="meal-row">
+            <span class="meal-name">${m.item || m.description}</span>
+            <span class="meal-kcal">${m.calories} kcal <span style="font-size:10px; color:var(--text-muted);">(P:${m.protein_g}g F:${m.fiber_g || 0}g)</span></span>
+          </div>
+        `).join('');
+      } else {
+        mealList.innerHTML = '<div style="font-size:12px; color:var(--text-muted); text-align:center; padding:10px;">No meals logged today yet.</div>';
+      }
+    }
+
+    async function sendTurn(payload) {
+      setStatus(true, "Analyzing Indian nutrition & health input...");
+      payload.speaker = activeSpeaker;
+      payload.voice_id = activeVoiceId;
+      payload.portion_mult = activePortionMult;
+      payload.voice_pace = activeVoicePace;
+
+      try {
+        const res = await fetch('/api/interact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) throw new Error("Server returned status " + res.status);
+        const data = await res.json();
+
+        if (data.user_transcript) {
+          addMessage('user', data.user_transcript);
+        }
+        if (data.spoken_reply) {
+          addMessage('coach', data.spoken_reply, data.audio_base64);
+        }
+        if (data.audio_base64) {
+          playAudio(data.audio_base64);
+        }
+
+        renderDashboard(data.today, data.profile);
+        setStatus(false, "Coach Ready");
+        return data;
+      } catch (err) {
+        console.error(err);
+        setStatus(false, "Connection error", true);
+        addMessage('coach', "Maaf kijiye, temporary connectivity issue aaya. Please dobara try karein ya text likhiye!");
+      }
+    }
+
+    function sendTextMessage() {
+      const input = document.getElementById('textInput');
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = "";
+      sendTurn({ text: text });
+    }
+
+    function usePreset(text) {
+      document.getElementById('textInput').value = text;
+      sendTextMessage();
+    }
+
+    async function triggerCheckin(mode) {
+      setStatus(true, "Generating proactive voice response...");
+      try {
+        const res = await fetch('/api/nudge', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            mode: mode,
+            speaker: activeSpeaker,
+            voice_id: activeVoiceId,
+            voice_pace: activeVoicePace
+          })
+        });
+        const data = await res.json();
+        addMessage('coach', data.initial_prompt, data.audio_base64);
+        if (data.audio_base64) {
+          playAudio(data.audio_base64);
+        }
+        setStatus(false, "Coach Ready");
+      } catch (err) {
+        console.error(err);
+        setStatus(false, "Nudge error", true);
+      }
+    }
+
+    async function confirmReset() {
+      if (!confirm("Are you sure you want to reset today's logs to 0 for a fresh check-in?")) return;
+      try {
+        const res = await fetch('/api/reset', { method: 'POST' });
+        const data = await res.json();
+        renderDashboard(data.today, data.profile);
+        addMessage('coach', "Today's logs have been reset. Ready for your fresh check-in!");
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    // Voice Mic Recording
+    async function handleVoiceToggle() {
+      const btn = document.getElementById('recordBtn');
+      const icon = document.getElementById('recordIcon');
+      const label = document.getElementById('recordText');
+
+      if (!isRecording) {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          alert("Microphone recording is not supported in this browser context. Please use the text input below!");
+          return;
+        }
+
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          
+          let mimeType = 'audio/webm';
+          if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) {
+            mimeType = 'audio/webm;codecs=opus';
+          } else if (MediaRecorder.isTypeSupported('audio/ogg;codecs=opus')) {
+            mimeType = 'audio/ogg;codecs=opus';
+          } else if (MediaRecorder.isTypeSupported('audio/mp4')) {
+            mimeType = 'audio/mp4';
+          }
+
+          mediaRecorder = new MediaRecorder(stream, { mimeType: mimeType });
+          audioChunks = [];
+          recordStartTime = Date.now();
+
+          mediaRecorder.ondataavailable = e => {
+            if (e.data && e.data.size > 0) audioChunks.push(e.data);
+          };
+
+          mediaRecorder.onstop = async () => {
+            clearInterval(recordTimerInterval);
+            const durationMs = Date.now() - recordStartTime;
+            if (durationMs < 600) {
+              setStatus(false, "Recording too brief (hold 1-2 sec)", true);
+              return;
+            }
+
+            const audioBlob = new Blob(audioChunks, { type: mimeType });
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              const b64 = reader.result.split(',')[1];
+              sendTurn({ audio_base64: b64, filename: 'input.webm' });
+            };
+            reader.readAsDataURL(audioBlob);
+            stream.getTracks().forEach(t => t.stop());
+          };
+
+          mediaRecorder.start();
+          isRecording = true;
+          btn.className = "btn-record recording";
+          icon.innerText = "⏹️";
+          label.innerText = "Listening (0s)... Click when finished";
+          setStatus(true, "Recording Voice...");
+
+          let sec = 0;
+          recordTimerInterval = setInterval(() => {
+            sec++;
+            label.innerText = `Listening (${sec}s)... Click when finished`;
+          }, 1000);
+
+        } catch (err) {
+          console.error("Mic error:", err);
+          alert("Microphone access error: " + err.message + "\\nYou can still use the text box or preset chips!");
+        }
+      } else {
+        if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+          mediaRecorder.stop();
+        }
+        isRecording = false;
+        btn.className = "btn-record";
+        icon.innerText = "🎙️";
+        label.innerText = "Click to Speak (Hinglish / English Mic)";
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      applyTheme(currentTheme);
+      setPace(activeVoicePace);
+      init3DTilt();
+      loadState();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+{
+  "user_profile": {
+    "name": "User",
+    "calorie_target": 2100,
+    "protein_target_g": 120,
+    "carbs_target_g": 220,
+    "fat_target_g": 60,
+    "workout_streak_days": 6,
+    "fiber_target_g": 32,
+    "water_target_l": 3.0,
+    "portion_size_multiplier": 1,
+    "selected_voice": "simran",
+    "cloned_voices": []
+  },
+  "history": [
+    {
+      "date": "2026-11-01",
+      "meals": [
+        {
+          "item": "2 Besan Chilla + green chutney",
+          "calories": 320,
+          "protein_g": 16,
+          "carbs_g": 38,
+          "fat_g": 10
+        },
+        {
+          "item": "Rajma Chawal + cucumber salad",
+          "calories": 580,
+          "protein_g": 22,
+          "carbs_g": 85,
+          "fat_g": 14
+        },
+        {
+          "item": "Paneer bhurji with 2 multigrain rotis",
+          "calories": 610,
+          "protein_g": 34,
+          "carbs_g": 48,
+          "fat_g": 28
+        }
+      ],
+      "workout": {
+        "activity": "HIIT & Core",
+        "duration_min": 40,
+        "status": "completed"
+      },
+      "sleep": {
+        "hours": 7.5,
+        "quality_1_to_5": 4
+      },
+      "energy_level": "high",
+      "totals": {
+        "calories": 1510,
+        "protein_g": 72,
+        "carbs_g": 171,
+        "fat_g": 52
+      }
+    },
+    {
+      "date": "2026-11-02",
+      "meals": [
+        {
+          "item": "Poha with roasted peanuts + tea",
+          "calories": 360,
+          "protein_g": 10,
+          "carbs_g": 56,
+          "fat_g": 11
+        },
+        {
+          "item": "Dal Tadka, 2 rotis, curd",
+          "calories": 520,
+          "protein_g": 20,
+          "carbs_g": 72,
+          "fat_g": 15
+        },
+        {
+          "item": "Grilled soya chunks with stir fry veggies",
+          "calories": 480,
+          "protein_g": 42,
+          "carbs_g": 30,
+          "fat_g": 12
+        }
+      ],
+      "workout": {
+        "activity": "Upper Body Strength",
+        "duration_min": 45,
+        "status": "completed"
+      },
+      "sleep": {
+        "hours": 6.8,
+        "quality_1_to_5": 3
+      },
+      "energy_level": "moderate",
+      "totals": {
+        "calories": 1360,
+        "protein_g": 72,
+        "carbs_g": 158,
+        "fat_g": 38
+      }
+    },
+    {
+      "date": "2026-11-03",
+      "meals": [],
+      "workout": {
+        "activity": "Strength",
+        "duration_min": 0,
+        "status": "planned"
+      },
+      "sleep": {
+        "hours": 7.5,
+        "quality_1_to_5": 4
+      },
+      "energy_level": "high",
+      "adaptive_actions": [
+        "Waiting for meal details to estimate nutrition and plan the day's activity and rest.",
+        "Planned a strength workout to align with high energy and solid 7.5-hour recovery sleep.",
+        "High energy and good recovery sleep make this strength workout a perfect fit; will suggest a protein-rich lunch to support muscle repair.",
+        "Initiating a friendly check-in to gather today's food, water, workout, and sleep updates before suggesting a plan."
+      ],
+      "totals": {
+        "calories": 0,
+        "protein_g": 0,
+        "carbs_g": 0,
+        "fat_g": 0,
+        "fiber_g": 0,
+        "water_liters": 0.0
+      }
+    }
+  ],
+  "today": {
+    "date": "2026-11-04",
+    "meals": [
+      {
+        "item": "2 besan chilla",
+        "calories": 320,
+        "protein_g": 12,
+        "carbs_g": 45,
+        "fat_g": 10,
+        "fiber_g": 4
+      },
+      {
+        "item": "1 cup chai",
+        "calories": 40,
+        "protein_g": 1,
+        "carbs_g": 6,
+        "fat_g": 1,
+        "fiber_g": 0
+      }
+    ],
+    "workout": {
+      "activity": "Strength & Core",
+      "duration_min": 45,
+      "status": "planned"
+    },
+    "sleep": {
+      "hours": 0.0,
+      "quality_1_to_5": 0
+    },
+    "energy_level": "unknown",
+    "adaptive_actions": [
+      "No workout logged yet; suggested keeping hydration up and waiting to see if a strength session is planned later today."
+    ],
+    "totals": {
+      "calories": 360,
+      "protein_g": 13,
+      "carbs_g": 51,
+      "fat_g": 11,
+      "fiber_g": 4,
+      "water_liters": 0.0
+    }
+  }
+}
